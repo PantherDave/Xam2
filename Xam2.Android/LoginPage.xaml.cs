@@ -29,8 +29,11 @@ namespace Xam2.Views
         {
             Models.User user = new User(Entry_Username.Text,
                 Entry_Password.Text) ;
-            if (!user.CheckInfo())
-                DisplayAlert("Login","Login Success","Ok") ;
+            if (!user.CheckInfo()) {
+                DisplayAlert("Login", "Login Success", "Ok");
+                App.UserDatabase.SaveUser(user);
+            }
+                
             else
                 DisplayAlert("Login", "Login Failed, empty username or "
                     + "password", "Ok") ;

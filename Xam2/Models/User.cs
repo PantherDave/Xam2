@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Data.Sqlite;
+using System.Data;
 namespace Xam2.Models
 {
     public class User
