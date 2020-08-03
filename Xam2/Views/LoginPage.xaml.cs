@@ -25,13 +25,17 @@ namespace Xam2.Views
             Entry_Password.Completed += (s, e) => SignInProcedure(s, e);
         }
 
-        void SignInProcedure(object sender, EventArgs e)
+        async void SignInProcedure(object sender, EventArgs e)
         {
             User user = new User(Entry_Username.Text, Entry_Password.Text);
             if (!user.CheckInfo())
             {
                 DisplayAlert("Login", "Login Successful", "Ok");
-                App.UserDatabase.SaveUser(user);
+                var result = await App.RestService.Login(user);
+                if (result != null)
+                {
+                    App.UserDatabase.SaveUser(user);
+                }
             }
             else
             {

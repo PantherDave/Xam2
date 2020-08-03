@@ -10,6 +10,7 @@ namespace Xam2
     {
         public static TokenDatabaseController tokenDatabase;
         public static UserDatabaseController userDatabase;
+        public static RestService restService;
 
         public App()
         {
@@ -49,6 +50,16 @@ namespace Xam2
                     tokenDatabase = new TokenDatabaseController();
 
                 return tokenDatabase;
+            }
+        }
+
+        public static RestService RestService
+        {
+            get
+            {
+                if (restService == null)
+                    restService = new RestService();
+                return restService ;
             }
         }
     }
