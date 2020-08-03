@@ -16,10 +16,11 @@ namespace Xam2.Views
         void Init()
         {
             BackgroundColor = Constants.BackgroundColor;
-            Lb1_Username.TextColor = Constants.MainTextColor;
-            Lb1_Password.TextColor = Constants.MainTextColor;
+            Lbl_Username.TextColor = Constants.MainTextColor;
+            Lbl_Password.TextColor = Constants.MainTextColor;
             ActivitySpinner.IsVisible = false;
             LogInIcon.HeightRequest = Constants.LogInIconHeight;
+            App.StartCheckIfInternet(Lbl_nointernet, this);
 
             Entry_Username.Completed += (s, e) => Entry_Password.Focus();
             Entry_Password.Completed += (s, e) => SignInProcedure(s, e);

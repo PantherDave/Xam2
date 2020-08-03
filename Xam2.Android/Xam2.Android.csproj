@@ -67,6 +67,7 @@
     <Compile Include="LoginPage.xaml.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' ">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\NetworkConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

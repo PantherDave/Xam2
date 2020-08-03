@@ -14,5 +14,7 @@ namespace Xam2.Models
         public Constants()
         {
         }
+
+        public static string NotInternetText = "No Internet, please reconnect";
     }
 }
