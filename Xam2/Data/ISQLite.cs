@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.Data.Sqlite;
+using SQLite;
 
 namespace Xam2.Data
 {
     public interface ISQLite
     {
-        SqliteConnection GetConnection();
+        SQLiteConnection GetConnection();
     }
 }

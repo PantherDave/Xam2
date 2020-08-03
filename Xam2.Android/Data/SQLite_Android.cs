@@ -7,8 +7,8 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 using Android.Runtime;
+using SQLite;
 using Xam2.Data;
-using Microsoft.Data.Sqlite;
 using Xamarin.Forms;
 using Xam2.Droid.Data;
 
@@ -22,13 +22,13 @@ namespace Xam2.Droid.Data
         {
         }
 
-        public SqliteConnection GetConnection()
+        public SQLiteConnection GetConnection()
         {
             var sqliteFilename = "TestDB.db3";
             string docsPath = System.Environment.GetFolderPath(
                 System.Environment.SpecialFolder.Personal);
             var path = Path.Combine(docsPath, sqliteFilename);
-            var conn = new SqliteConnection(path);
+            var conn = new SQLiteConnection(path);
 
             return conn ;
         }

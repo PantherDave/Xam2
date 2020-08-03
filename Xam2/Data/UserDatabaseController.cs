@@ -1,98 +1,54 @@
 ﻿using System;
 using Xam2.Models;
-using Microsoft.Data.Sqlite;
+using SQLite;
 using Xamarin.Forms;
 namespace Xam2.Data
 {
     public class UserDatabaseController
     {
         public static object locker = new object();
-        public SqliteConnection database;
+        public SQLiteConnection database;
 
         public UserDatabaseController()
         {
             database = DependencyService.Get<ISQLite>().GetConnection();
-            using (var command = database.CreateCommand())
-            {
-                command.CommandText = @"CREATE TABLE IF NOT EXISTS User" +
-                    "("+
-                    "[Id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                    "[Username] VARCHAR(64), [Password] VARCHAR(64)" +
-                    ");" ;
-
-                command.ExecuteNonQuery();
-            }
+            database.CreateTable<User>();
         }
 
         public User GetUser()
         {
             lock (locker)
             {
-                using (var command = database.CreateCommand())
-                {
-                    command.CommandText = "SELECT Username, Password from" +
-                        " User LIMIT 1;";
-                    string uname = "", passwd = "";
-
-                    var result = command.ExecuteReader();
-                    while (result.Read())
-                    {
-                        uname = result.GetString(0);
-                        passwd = result.GetString(1);
-                    }
-
-                    return new User(uname, passwd);
-                }
+                if (database.Table<User>().Count() == 0)
+                    return null;
+                else
+                    return database.Table<User>().First();
             }
         }
 
-        public void SaveUser(User user)
+        public int SaveUser(User user)
         {
             lock (locker)
             {
                 if (user.Id != 0)
                 {
-                    using (var command = database.CreateCommand())
-                    {
-
-                        command.CommandText = @"UPDATE User
-                            SET Username='" + user.Username + "', Password='"
-                            +user.Username + "'" +
-                            "WHERE Id=" + user.Id + ";";
-                        command.ExecuteNonQuery();
-                    }
-                    return;
+                    database.Update(user);
+                    return user.Id;
                 }
                 else
                 {
-                    using (var command = database.CreateCommand())
-                    {
-
-                        command.CommandText = @"INSERT INTO User(Id,
-                            Username, Password) VALUES('"
-                            +user.Id+"', '"+user.Username+"', '"
-                            +user.Password+"') ;" ;
-                        command.ExecuteNonQuery();  
-                    }
-                    return ;
-                }
+                    return database.Insert(user);
+                }   
 
             }
             
         }
 
-        public void DeleteUser(int id)
+        public int DeleteUser(int id)
         {
             lock (locker)
             {
-                using (var command = database.CreateCommand())
-                {
-
-                    command.CommandText = @"DELETE FROM User WHERE Id = "
-                        + id + ";" ;
-                    command.ExecuteNonQuery();
-                }
-                return ;
+                return database.Delete<User>(id);
             }
         }
     }
