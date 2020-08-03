@@ -31,6 +31,7 @@ namespace Xam2.Views
             if (!user.CheckInfo())
             {
                 DisplayAlert("Login", "Login Successful", "Ok");
+                App.UserDatabase.SaveUser(user);
             }
             else
             {
